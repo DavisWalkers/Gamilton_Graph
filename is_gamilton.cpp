@@ -92,15 +92,15 @@ static int findAnotherVertex(int** graph, int size,
 static bool determineGamilton(int** graph, int size, int startVertex, 
                         int curVertex, int* visited)
 {
+	/* Mark the vertex we are in */
+	visited[curVertex] = 1;
+
 	/* Halts if all visited and there is a path to start */
 	if (isAllVisited(visited, size) && isTherePathToStart(graph, 
 													startVertex, curVertex)) {
 		delete[] visited;
 		return true;
 	}
-	
-	/* Mark the vertex we are in */
-	visited[curVertex] = 1;
 	
 	/* Continue recursion */
 	int	nextVertex = findAnotherVertex(graph, size, curVertex, visited);

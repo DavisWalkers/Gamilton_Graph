@@ -1,4 +1,4 @@
-#include <iostream>
+#include "is_gamilton.h"
 
 using namespace std;
 
@@ -13,17 +13,12 @@ int **createGraph(int size)
     cout << "\tEnter only upper triangular part of the graph" << endl;
     for(int i = 0; i < size; ++i) {
         for (int j = i; j < size; ++j) {
-            if (i != j) {
-                cout << "(" << i << ", " << j << "): ";
-                do {
-                   cin >> input;
-                } while (input < 0 || input > 1);
-                graph[i][j] = input; 
-                graph[j][i] = input;
-            }
-            else {
-                graph[i][j] = 0;
-            }
+            cout << "(" << i << ", " << j << "): ";
+            do {
+               cin >> input;
+            } while (input < 0 || input > 1);
+            graph[i][j] = input; 
+            graph[j][i] = input;
         }
     }
     return graph;
@@ -38,13 +33,8 @@ int **createRandomGraph(int size)
     
     for(int i = 0; i < size; ++i) {
         for (int j = i; j < size; ++j) {
-            if (i != j) {
-                graph[i][j] = rand() % 2;
-                graph[j][i] = graph[i][j];
-            }
-            else {
-                graph[i][j] = 0;
-            }
+        	graph[i][j] = rand() % 2;
+            graph[j][i] = graph[i][j];
         }
     }
     return graph;
@@ -62,7 +52,7 @@ void printGraph(int **graph, int size)
 }
 
 /* Checks whether vertex was visited before */
-bool isVisited(int vertex, int* visited, int visited_len)
+static bool isVisited(int vertex, int* visited, int visited_len)
 {
 	for (int i = 0; i < visited_len; ++i)
 		if ((i == vertex) && (visited[i] == 1))
@@ -71,7 +61,7 @@ bool isVisited(int vertex, int* visited, int visited_len)
 }
 
 /* Checks whether all vertecies have been visited */ 
-bool isAllVisited(int* visited, int visited_len)
+static bool isAllVisited(int* visited, int visited_len)
 {
 	for (int i = 0; i < visited_len; ++i)
 		if (visited[i] == 0)
@@ -80,13 +70,13 @@ bool isAllVisited(int* visited, int visited_len)
 }
 
 /* Checks whether there is a path from current vertex to start vertex */
-bool isTherePathToStart(int** graph, int startVertex, int curVertex)
+static bool isTherePathToStart(int** graph, int startVertex, int curVertex)
 {
 	return graph[curVertex][startVertex];
 }
 
 /* Finds a path to another non-visited vertex */
-int findAnotherVertex(int** graph, int size, 
+static int findAnotherVertex(int** graph, int size, 
                         int curVertex, int* visited)
 {
 	for (int i = 0; i < size; ++i) {
@@ -99,7 +89,7 @@ int findAnotherVertex(int** graph, int size,
 }
 
 /* Determines whether the graph is Gamilton's graph */
-bool determineGamilton(int** graph, int size, int startVertex, 
+static bool determineGamilton(int** graph, int size, int startVertex, 
                         int curVertex, int* visited)
 {
 	/* Halts if all visited and there is a path to start */
@@ -132,46 +122,3 @@ int isGamilton(int** graph, int size)
 	delete[] visited;
 	return determineGamilton(graph, size, 0, 0, visited);
 }
-
-int main()
-{
-			
-	/* Initializating the graph */	
-    int size;
-    int **graph;
-    char ans;
-    bool byUser = false;
-
-    cout << "Do you want to input a graph manually(y or n)? ";
-    do {
-        cin >> ans;
-    } while (ans != 'y' && ans != 'n');
-
-    byUser = (ans == 'y') ? true : false;
-
-    cout << "Graph size(positive integer): ";
-    do {
-        cin >> size;
-    } while (size < 1);
-
-    if (byUser) {
-        graph = createGraph(size);
-    }
-    else {
-		srand(time(0));
-        graph = createRandomGraph(size);
-        printGraph(graph, size);
-    }
-	
-	/* Checks Gamilton's graph */
-	cout << (isGamilton(graph, size) ? "yes" : "no") << endl;
-
-	for(int i = 0; i < size; ++i)
-        delete[] graph[i];
-    
-    delete[] graph;
-
-	return 0;
-}
-
-

@@ -14,6 +14,6 @@ int **createRandomGraph(int size);
 void printGraph(int **graph, int size);
 
 /* Interface for determining whether the graph is Gamilton's graph */
-int isGamilton(int **graph, int size);
+bool isGamilton(int **graph, int size);
 
 #endif

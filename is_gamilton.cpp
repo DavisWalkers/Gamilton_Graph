@@ -94,8 +94,10 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 {
 	/* Halts if all visited and there is a path to start */
 	if (isAllVisited(visited, size) && isTherePathToStart(graph, 
-													startVertex, curVertex))
+													startVertex, curVertex)) {
+		delete[] visited;
 		return true;
+	}
 	
 	/* Mark the vertex we are in */
 	visited[curVertex] = 1;
@@ -103,14 +105,16 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 	/* Continue recursion */
 	int	nextVertex = findAnotherVertex(graph, size, curVertex, visited);
 	
-	if (nextVertex == -1)
+	if (nextVertex == -1) {
+		delete[] visited;
 		return false;
+	}
 	
 	return determineGamilton(graph, size, startVertex, nextVertex, visited);
 }
 
 /* Interface for determining whether the graph is Gamilton's graph*/
-int isGamilton(int** graph, int size)
+bool isGamilton(int** graph, int size)
 {
 	/* Storing visited vertices */
 	int* visited = new int[size];
@@ -119,6 +123,5 @@ int isGamilton(int** graph, int size)
 	for (int i = 0; i < size; ++i)
 		visited[i] = 0;
 	
-	delete[] visited;
 	return determineGamilton(graph, size, 0, 0, visited);
 }

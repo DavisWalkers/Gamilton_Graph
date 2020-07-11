@@ -96,8 +96,7 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 	visited[curVertex] = 1;
 
 	/* Halts if all visited and there is a path to start */
-	if (isAllVisited(visited, size) && isTherePathToStart(graph, 
-													startVertex, curVertex)) {
+	if (isAllVisited(visited, size) && isTherePathToStart(graph, startVertex, curVertex)) {
 		return true;
 	}
 	
@@ -108,8 +107,7 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 		vertexTried[i] = 0;
 
 	/* Get next vertex */
-	int	nextVertex = findAnotherVertex(graph, size, curVertex,
-										 visited, vertexTried);
+	int	nextVertex = findAnotherVertex(graph, size, curVertex, visited, vertexTried);
 
 	/* If there is no vertex then halt */
 	if (nextVertex == -1) {
@@ -123,11 +121,9 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 	
 	bool result;
 	while (nextVertex != -1 && !result) {	
-		result = determineGamilton(graph, size, startVertex,
-									 nextVertex, visited);
+		result = determineGamilton(graph, size, startVertex, nextVertex, visited);
 		if (result == false) {
-			nextVertex = findAnotherVertex(graph, size, curVertex,
-											 visited, vertexTried);
+			nextVertex = findAnotherVertex(graph, size, curVertex, visited, vertexTried);
 			if (nextVertex != -1) 
 				vertexTried[nextVertex] = 1;
 			continue;

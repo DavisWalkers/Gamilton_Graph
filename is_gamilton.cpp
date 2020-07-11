@@ -112,6 +112,7 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 	/* If there is no vertex then halt */
 	if (nextVertex == -1) {
 		delete[] vertexTried;
+		visited[curVertex] = 0;
 		return false;
 	}
 	/* Else mark the vertex we want to try */
@@ -119,7 +120,7 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 		vertexTried[nextVertex] = 1;
 	}
 	
-	bool result;
+	bool result = false;
 	while (nextVertex != -1 && !result) {	
 		result = determineGamilton(graph, size, startVertex, nextVertex, visited);
 		if (result == false) {
@@ -129,6 +130,7 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 			continue;
 		}
 	}
+
 	delete[] vertexTried;
 
 	if (result == false) 

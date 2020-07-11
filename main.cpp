@@ -27,7 +27,7 @@ static void deleteGraph(int **graph, int size)
 int main()
 {            
     /* Testing function correctness */
-    int size = 3;
+    int size = 5;
     int **graph = new int*[size];
 
     for(int i = 0; i < size; ++i)
@@ -36,13 +36,17 @@ int main()
     /* Manually fill in the graph */
     /* Test 1*/
     /*
-        | 0 1 1 |
-        | 1 0 1 |
-        | 1 1 0 |
+        | 0 1 0 0 1 |
+        | 1 0 1 1 0 |
+        | 0 1 0 1 1 |
+		| 0 1 1 0 0 |
+		| 1 0 1 0 0 |
     */
-    graph[0][0] = 0, graph[0][1] = 1, graph[0][2] = 1;
-    graph[1][0] = 1, graph[1][1] = 0, graph[1][2] = 1;
-    graph[2][0] = 1, graph[2][1] = 1, graph[2][2] = 0;
+    graph[0][0] = 0, graph[0][1] = 1, graph[0][2] = 0, graph[0][3] = 0, graph[0][4] = 1;
+    graph[1][0] = 1, graph[1][1] = 0, graph[1][2] = 1, graph[1][3] = 1, graph[1][4] = 0;
+    graph[2][0] = 0, graph[2][1] = 1, graph[2][2] = 0, graph[2][3] = 1, graph[2][4] = 1;
+	graph[3][0] = 0, graph[3][1] = 1, graph[3][2] = 1, graph[3][3] = 0, graph[3][4] = 0;
+	graph[4][0] = 1, graph[4][1] = 0, graph[4][2] = 1, graph[4][3] = 0, graph[4][4] = 0;
     
     /* Calculating result */
     bool result = isGamilton(graph, size);
@@ -56,6 +60,11 @@ int main()
         | 0 0 1 |
         | 1 1 0 |
     */
+	deleteGraph(graph, size);
+	size = 3;	
+	graph = new int*[size];
+	for (int i = 0; i < size; ++i)
+		graph[i] = new int[size];
 
     graph[0][0] = 0, graph[0][1] = 0, graph[0][2] = 1;
     graph[1][0] = 0, graph[1][1] = 0, graph[1][2] = 1;

@@ -77,11 +77,11 @@ static bool isTherePathToStart(int** graph, int startVertex, int curVertex)
 
 /* Finds a path to another non-visited vertex */
 static int findAnotherVertex(int** graph, int size, 
-                        int curVertex, int* visited)
+                        int curVertex, int* visited, int *tried)
 {
 	for (int i = 0; i < size; ++i) {
 		if ((i != curVertex) && (graph[curVertex][i] == 1) 
-			&& !isVisited(i, visited, size))
+			&& !isVisited(i, visited, size) && !isVisited(i, tried, size))
 			return i;
 	}	
 
@@ -96,20 +96,49 @@ static bool determineGamilton(int** graph, int size, int startVertex,
 	visited[curVertex] = 1;
 
 	/* Halts if all visited and there is a path to start */
-	if (isAllVisited(visited, size) && isTherePathToStart(graph, startVertex, curVertex)) {
-		delete[] visited;
+	if (isAllVisited(visited, size) && isTherePathToStart(graph, 
+													startVertex, curVertex)) {
 		return true;
 	}
 	
-	/* Continue recursion */
-	int	nextVertex = findAnotherVertex(graph, size, curVertex, visited);
+	/* Create an array for tried vertecies */
+	int *vertexTried = new int[size];	
 	
+	for (int i = 0; i < size; ++i) 
+		vertexTried[i] = 0;
+
+	/* Get next vertex */
+	int	nextVertex = findAnotherVertex(graph, size, curVertex,
+										 visited, vertexTried);
+
+	/* If there is no vertex then halt */
 	if (nextVertex == -1) {
-		delete[] visited;
+		delete[] vertexTried;
 		return false;
 	}
+	/* Else mark the vertex we want to try */
+	else {
+		vertexTried[nextVertex] = 1;
+	}
 	
-	return determineGamilton(graph, size, startVertex, nextVertex, visited);
+	bool result;
+	while (nextVertex != -1 && !result) {	
+		result = determineGamilton(graph, size, startVertex,
+									 nextVertex, visited);
+		if (result == false) {
+			nextVertex = findAnotherVertex(graph, size, curVertex,
+											 visited, vertexTried);
+			if (nextVertex != -1) 
+				vertexTried[nextVertex] = 1;
+			continue;
+		}
+	}
+	delete[] vertexTried;
+
+	if (result == false) 
+		visited[curVertex] = 0;
+
+	return result;
 }
 
 /* Interface for determining whether the graph is Gamilton's graph*/
@@ -122,5 +151,7 @@ bool isGamilton(int** graph, int size)
 	for (int i = 0; i < size; ++i)
 		visited[i] = 0;
 	
-	return determineGamilton(graph, size, 0, 0, visited);
+	bool result = determineGamilton(graph, size, 0, 0, visited);
+	delete[] visited;
+	return result;
 }

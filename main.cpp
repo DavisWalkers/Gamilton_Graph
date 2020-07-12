@@ -5,6 +5,7 @@
 using namespace std;
 using namespace chrono;
 
+/* Measures time for an arbitrary graph */
 static bool measureTime(int **graph, int size)
 {
     auto start = high_resolution_clock::now(); 
@@ -16,12 +17,13 @@ static bool measureTime(int **graph, int size)
     return result;
 }
 
+/* Deteles the graph `*/
 static void deleteGraph(int **graph, int size)
 {
     for(int i = 0; i < size; ++i)
         delete[] graph[i];
 
-    delete graph;
+    delete[] graph;
 }
 
 int main()
@@ -75,6 +77,7 @@ int main()
     expected = false;
 
     cout << "Test 2: " << ((result == expected) ? "Passed" : "Not Passed") << endl;
+	deleteGraph(graph, size);
 
     /* Measuring time on arbitrary graphs */
     /* Test 1: size = 5 */

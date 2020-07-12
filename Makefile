@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -g -Wall
-SRCMODULES = is_gamilton.cpp
+SRCMODULES = is_gamilton.cpp test.cpp
 OBJMODULES = $(SRCMODULES:.c=.o)
 
 %.o:	%.cpp %.h

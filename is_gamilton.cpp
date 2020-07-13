@@ -4,11 +4,13 @@ using namespace std;
 
 /* Creates new graph by user */
 int **createGraph(int size)
-{
+{	
+	srand(time(0));
+
     int **graph = new int*[size];
     for(int i = 0; i < size; ++i)
         graph[i] = new int[size];
-
+	
     int input;
     cout << "\tEnter only upper triangular part of the graph" << endl;
     for(int i = 0; i < size; ++i) {
@@ -25,18 +27,42 @@ int **createGraph(int size)
 }
 
 /* Creates new graph with values either one or zero*/
-int **createRandomGraph(int size)
+int **createRandomGraph(int size, bool pureGamilton)
 {
+	int edges;
     int **graph = new int*[size];
     for(int i = 0; i < size; ++i)
         graph[i] = new int[size];
-    
-    for(int i = 0; i < size; ++i) {
-        for (int j = i; j < size; ++j) {
-        	graph[i][j] = rand() % 2;
-            graph[j][i] = graph[i][j];
-        }
-    }
+	
+	for(int i = 0; i < size; ++i)
+		for(int j = 0; j < size; ++j)
+			graph[i][j] = 0;   
+
+	for(int i = 0; i < size; ++i) {
+		edges = rand() % 3 + 1;
+		for(int j = i - 1; j >= 0; --j) {
+			if (rand() % 2 && edges) {
+				graph[i][j] = 1;
+				graph[j][i] = 1;
+				edges -= 1;
+			}	
+		}
+	}
+
+	if(pureGamilton) {
+		for(int i = 0; i < size; ++i) {
+			if (i == size - 1) {
+				graph[i][0] = 1;
+				graph[0][i] = 1;
+				break;
+			}
+			if (graph[i][i + 1] == 1)
+				continue;
+			graph[i][i + 1] = 1;
+			graph[i + 1][i] = 1;
+		}
+	}
+ 
     return graph;
 }
 

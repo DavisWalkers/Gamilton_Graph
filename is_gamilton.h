@@ -8,7 +8,7 @@
 int **createGraph(int size);
 
 /* Randomly creates new graph */
-int **createRandomGraph(int size);
+int **createRandomGraph(int size, bool pureGamilton = false);
 
 /* Print graph */
 void printGraph(int **graph, int size);

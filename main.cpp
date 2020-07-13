@@ -5,13 +5,14 @@
 using namespace std;
 
 int main()
-{            
+{
+	srand(time(0));            
     /* Test for correctness */
     testCorrectness();
 
     /* Measuring time on arbitrary graphs */
-	//test();
-
+	testTime();
+	
     return 0;
 }
 

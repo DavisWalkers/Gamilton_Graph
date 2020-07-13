@@ -1,30 +1,8 @@
 #include <iostream>
-#include <chrono>
 #include "is_gamilton.h"
+#include "test.h"
 
 using namespace std;
-using namespace chrono;
-
-/* Measures time for an arbitrary graph */
-static bool measureTime(int **graph, int size)
-{
-    auto start = high_resolution_clock::now(); 
-    bool result = isGamilton(graph, size);
-    auto stop = high_resolution_clock::now(); 
-    auto duration = duration_cast<microseconds>(stop - start); 
-    cout << "Time taken by function (size = " << size << "): "
-         << duration.count() << " microseconds" << endl;
-    return result;
-}
-
-/* Deteles the graph `*/
-static void deleteGraph(int **graph, int size)
-{
-    for(int i = 0; i < size; ++i)
-        delete[] graph[i];
-
-    delete[] graph;
-}
 
 int main()
 {            
@@ -41,8 +19,8 @@ int main()
         | 0 1 0 0 1 |
         | 1 0 1 1 0 |
         | 0 1 0 1 1 |
-	| 0 1 1 0 0 |
-	| 1 0 1 0 0 |
+		| 0 1 1 0 0 |
+		| 1 0 1 0 0 |
     */
     graph[0][0] = 0, graph[0][1] = 1, graph[0][2] = 1, graph[0][3] = 0, graph[0][4] = 0;
     graph[1][0] = 1, graph[1][1] = 0, graph[1][2] = 1, graph[1][3] = 1, graph[1][4] = 0;
@@ -80,29 +58,7 @@ int main()
 	deleteGraph(graph, size);
 
     /* Measuring time on arbitrary graphs */
-    /* Test 1: size = 5 */
-    size = 5;
-    graph = createRandomGraph(size);
-    result = measureTime(graph, size);
-	deleteGraph(graph, size);
-
-    /* Test 2: size = 20 */
-    size = 20;
-    graph = createRandomGraph(size);
-    result = measureTime(graph, size);
-	deleteGraph(graph, size);
-
-    /* Test 3: size = 100 */
-    size = 100;
-    graph = createRandomGraph(size);
-    result = measureTime(graph, size);
-	deleteGraph(graph, size);
-
-    /* Test 4: size = 1000 */
-    size = 1000;
-    graph = createRandomGraph(size);
-    result = measureTime(graph, size);
-	deleteGraph(graph, size);
+	test();
 
     return 0;
 }

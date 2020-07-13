@@ -50,7 +50,7 @@ void test()
 		cout << setw(5) << left << "Test: " << setw(2) << i + 1;
 		cout << setw(6) << " | size: ";
 		cout << setw(3) << size;
-		cout << setw(14) << " | average time: ";
+		cout << setw(14) << " | average time(mcsec): ";
 		cout << setw(5) << setprecision(3) << testResult[1];
 		cout << setw(20) << " | Gamilton's graphs: " << testResult[0];
 		cout << endl;

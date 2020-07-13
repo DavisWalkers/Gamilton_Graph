@@ -12,6 +12,9 @@ int main()
 
     /* Measuring time on arbitrary graphs */
 	testTime();
+
+	/* Measuring time on Gamilton's graphs */
+	testTime(true);
 	
     return 0;
 }

@@ -6,7 +6,8 @@ using namespace chrono;
 
 /* Measures time for an arbitrary graph					    */
 /* - Returns pair (number of Gamilton graphs, average time) */
-static long *testOnGraph(int size, int testAmount = TEST_AMOUNT)
+static long *testOnGraph(int size, bool pureGamilton = false,
+							 int testAmount = TEST_AMOUNT)
 {
 	long *resultPair = new long[2]; 
 	resultPair[0] = 0, resultPair[1] = 0;
@@ -14,7 +15,7 @@ static long *testOnGraph(int size, int testAmount = TEST_AMOUNT)
 
 	for (int i = 0; i < testAmount; ++i) 
 	{
-		graph = createRandomGraph(size);
+		graph = createRandomGraph(size, pureGamilton);
     	auto start = high_resolution_clock::now();
     	bool result = isGamilton(graph, size);
    		auto stop = high_resolution_clock::now();
@@ -144,18 +145,19 @@ void testCorrectness()
     deleteGraph(graph, size);
 }
 
-void testTime()
+void testTime(bool pureGamilton)
 {
 	int size = 0;
 	long *testResult = NULL;
 	
-	cout << "\n\tTest for measuring time" << endl;
+	cout << "\n\tTest for measuring time ";
+	cout << (pureGamilton ? "(only Gamilton's graphs)" : "") << endl;
 	cout << "  The following tests operate on " << TEST_AMOUNT 
 			<< " graphs" << endl;
 	for (int i = 0; i < DIFFERENT_SIZE; ++i)
 	{
 		size += 2;
-		testResult = testOnGraph(size);
+		testResult = testOnGraph(size, pureGamilton);
 		cout << setw(5) << left << "Test: " << setw(2) << i + 1;
 		cout << setw(6) << " | size: ";
 		cout << setw(3) << size;

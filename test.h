@@ -9,7 +9,7 @@
 #define DIFFERENT_SIZE 10
 
 /* Tests function -- isGamilton() */
-void testTime();
+void testTime(bool pureGamilton = false);
 
 /* Tests function -- isGamilton() for correctness*/
 void testCorrectness();

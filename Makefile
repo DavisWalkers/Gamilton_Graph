@@ -18,4 +18,4 @@ deps.mk:  $(SRCMODULES)
 
 clean:
 		rm -f *.o main
-		
+		rm -f *.swp main	

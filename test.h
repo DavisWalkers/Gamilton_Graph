@@ -11,6 +11,9 @@
 /* Tests function -- isGamilton() */
 void test();
 
+/* Tests function -- isGamilton() for correctness*/
+void testCorrectness();
+
 /* Deletes the graph */
 void deleteGraph(int **graph, int size);
 
